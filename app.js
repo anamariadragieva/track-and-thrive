@@ -22,6 +22,9 @@ app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstra
 
 app.use(express.urlencoded({ extended: true }));
 
+function getSparklineUrl(coinId) {
+  return `https://www.coingecko.com/en/coins/${coinId}/sparkline_7d.png`;
+}
 // Use routes (apply routes to paths)
 // app.use('/', homeRoutes);  // When someone visits '/', use homeRoutes
 // app.use('/portfolio', portfolioRoutes);  // When someone visits '/portfolio', use portfolioRoutes
@@ -41,9 +44,14 @@ app.get("/", async (req, res) => {
         order: "market_cap_desc",
         per_page: perPage,
         page,
+        sparkline: true
       }
     });
-    coins = result.data;
+
+    coins = result.data.map(coin => ({
+      ...coin,  // Copy all existing properties from the coin object
+      sparklineData: coin.sparkline_in_7d.price
+    }));
 
   } catch (err) {
     console.error('Error fetching coin list:', err.message);
@@ -61,19 +69,26 @@ app.get("/", async (req, res) => {
 
 app.get("/coins/:id", async (req, res) => {
   const coinId = req.params.id;
-  console.log(coinId);
+  let coin = [];
 
   try {
-    const result = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}`);
-    const coin = result.data;
-    console.log(coin);
-    res.render("coin.ejs", { coin });
+    const result = await axios.get(`${COINGECKO_API_URL}/coins/markets` , {
+      params: {
+        vs_currency: "usd",
+        ids: coinId
+      }
+    });
 
+    coin = result.data;
+    console.log(coin);
   } catch (err) {
     console.error('Error fetching coin data:', err.message);
-
   }
 
+  res.render("coin.ejs", {
+    coin: coin[0]
+
+  });
 });
 
 

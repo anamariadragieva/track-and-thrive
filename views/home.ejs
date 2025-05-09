@@ -36,6 +36,7 @@
                             <th scope="col" class="text-end">24h %</th>
                             <th scope="col" class="text-end">24h Volume</th>
                             <th scope="col" class="text-end">Market Cap</th>
+                            <th scope="col" class="text-end">Last 7 Days</th>
                         </tr>
                     </thead>
                     <tbody class="">
@@ -54,6 +55,11 @@
                                 <td class="py-3 text-end"><%= coin.price_change_percentage_24h.toFixed(1) %> %</td>
                                 <td class="py-3 text-end">$ <%= coin.total_volume.toLocaleString() %></td>
                                 <td class="py-3 text-end">$ <%= coin.market_cap.toLocaleString() %></td>
+
+                                
+                                <td class="py-3 text-end">
+                                    <canvas id="sparkline-<%= coin.id %>" width="100" height="20"></canvas>
+                                </td>
                             </tr>       
                         <% }) %>
                     </tbody>

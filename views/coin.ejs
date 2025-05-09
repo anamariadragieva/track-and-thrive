@@ -2,15 +2,89 @@
 
 <div class="flex-grow-1 container py-4">
 
-    <div class="p-4 text-center">
-        <h1 class="display-5 fw-bold text-body-emphasis">Coin Page</h1>
+    <div class="row align-items-start g-5">
 
-        
+        <div class="col-md-4">
+
+            <div class="py-3 border rounded"> 
+                <div class="pb-3">
+                    <img src="<%= coin.image %>" class="img-fluid" 
+                    style="max-width: 32px;" alt="coin logo">
+                    <span class="fw-medium"><%= coin.name %></span>      
+                    <span class="text-muted "><%= coin.symbol.toUpperCase() %></span>
+                    <span class="text-muted bg-body-secondary rounded p-1">#<%= coin.market_cap_rank %></span>
+                </div>
+                <div class="py-3 align-items-center border rounded"> 
+                    <span class="fw-medium me-2">$ <%= coin.current_price.toLocaleString() %></span>      
+                    <span class="fw-medium text-success me-2"> up by <%= coin.price_change_percentage_24h.toFixed(1) %> % (1d)</span>
+                    <span><i class="bi bi-info-circle"></i></span>
+                </div>  
 
 
-        <div class="container">
+                <div class=" py-3 border rounded">
+                    <div class="row row-cols-2 g-3 py-3 text-center border rounded">
+                        <div class="col p-2  me-1 border rounded">
+                            <p class="p-0 m-0 fs-6">Market Cap <span><i class="bi bi-info-circle"></i></span></p>
+                            <span class="fw-medium">$ <%= coin.market_cap.toLocaleString() %></span>      
+                        </div>
+                        <div class="col p-2 border rounded">
+                            <p class="p-0 m-0 fs-6">Volume (24h) <span><i class="bi bi-info-circle"></i></span></p>
+                            <span class="fw-medium">$ <%= coin.total_volume.toLocaleString() %></span>  
+                        </div>
+                        <div class="col p-2 border rounded">Grid item 3</div>
+                        <div class="col p-2 border rounded">Grid item 4</div>
+                        <div class="col p-2 border rounded">Grid item 5</div>
+                        <div class="col p-2 border rounded">Grid item 6</div>
+
+                        <div class="col-12 p-2 border rounded">Grid item 7</div>
+                    </div>
+                </div>
+
+
+
+                
+                <div class="py-3  border rounded">
+                    <p>Hi</p>
+
+                
+
+                </div>
+
+
+            </div>
+
+            
 
         </div>
+
+        <div class="col-md-8">
+
+            <div class="position-sticky">
+
+                <article class="blog-post">
+                    <h2 class="display-5 link-body-emphasis mb-1">New feature</h2>
+                    <p class="blog-post-meta">December 14, 2020 by <a href="#">Chris</a></p>
+            
+                    <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
+                    <ul>
+                    <li>First list item</li>
+                    <li>Second list item with a longer description</li>
+                    <li>Third list item to close it out</li>
+                    </ul>
+                    <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
+                </article>
+
+            </div>
+
+        </div>
+
+       
+
+
+
+      
+
+
     </div>
 
     
