@@ -27,11 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 // app.use('/portfolio', portfolioRoutes);  // When someone visits '/portfolio', use portfolioRoutes
 
 // Home route
-app.get('/', async (req, res) => {
+app.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 50;
   const totalPages = 3;
-
   let coins = [];
   let errorFetching = false;
 
@@ -44,25 +43,38 @@ app.get('/', async (req, res) => {
         page,
       }
     });
-
     coins = result.data;
-    
 
   } catch (err) {
     console.error('Error fetching coin list:', err.message);
     errorFetching = true;
   }
 
-  res.render('home', {
+  res.render("home.ejs", {
     coins,
     currentPage: page,
     perPage,
     totalPages,
-    errorFetching,
+    errorFetching: errorFetching || false
   });
 });
 
+app.get("/coins/:id", async (req, res) => {
+  const coinId = req.params.id;
+  console.log(coinId);
 
+  try {
+    const result = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}`);
+    const coin = result.data;
+    console.log(coin);
+    res.render("coin.ejs", { coin });
+
+  } catch (err) {
+    console.error('Error fetching coin data:', err.message);
+
+  }
+
+});
 
 
 
