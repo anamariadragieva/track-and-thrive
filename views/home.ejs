@@ -2,28 +2,80 @@
 
 <div class="flex-grow-1 container py-4">
 
-    <div class="p-4 text-center">
-        <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1>
+    <div class="px-4 pt-5 text-center">
+        <h1 class="display-5 fw-bold text-body-emphasis">track & thrive</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+            Welcome to the world's largest cryptocurrency marketplace.
+            </p>
+        </div>
+        
+        <div class="col-lg-6 mx-auto search-container mb-3">
+            <label for="search" class="visually-hidden">Search</label>
+            <input type="search" class="form-control search-input" id="search" placeholder="Search coin by name...">
+            <i class="bi bi-search search-icon"></i>
+        </div>
+    </div>
+
+    <div class="py-5 g-3 ">
+
+        <div class="col-lg-8 mx-auto text-center">
+            <p class="lead">
+                Cryptocurrency rankings by market cap, trading volume, 
+                and percentage change for the last 24 hours, 7 days, 30 days, and year to date.
+            </p>
+        </div>
 
         <% if (!errorFetching) { %>
 
-            <form method="GET" action="/" class="mb-3">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        Show <%= perPage %>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <% [25, 50, 100, 200].forEach(limit => { %>
-                            <li>
-                                <button type="submit" name="perPage" value="<%= limit %>" class="dropdown-item">
-                                    Show <%= limit %>
+
+
+            <div class="container">
+                <ul class="nav nav-pills g-2 justify-content-end">
+                    <li class="nav-item">
+                        <form method="GET" action="/" class="mb-3 text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <%= selectedCurrency.toUpperCase() %>
                                 </button>
-                            </li>                  
-                        <% }); %>
-                    </ul>
-                </div>
-                <input type="hidden" name="page" value="<%= currentPage %>">
-            </form>
+                                <ul class="dropdown-menu">
+                                    <% supportedCurrencies.forEach(currency => { %>
+                                        <li>
+                                            <button type="submit" name="currency" value="<%= currency %>" class="dropdown-item">
+                                                <%= currency.toUpperCase() %>
+                                            </button>
+                                        </li>                  
+                                    <% }); %>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="page" value="<%= currentPage %>">
+                            <input type="hidden" name="perPage" value="<%= perPage %>">
+                        </form>
+                    </li>
+                
+                    <li class="nav-item">
+                        <form method="GET" action="/" class="mb-3 text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    Show <%= perPage %>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <% [25, 50, 100, 200].forEach(limit => { %>
+                                        <li>
+                                            <button type="submit" name="perPage" value="<%= limit %>" class="dropdown-item">
+                                                Show <%= limit %>
+                                            </button>
+                                        </li>                  
+                                    <% }); %>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="page" value="<%= currentPage %>">
+                            <input type="hidden" name="currency" value="<%= selectedCurrency %>">
+                        </form>
+                    </li>
+                </ul>
+
+            </div>
 
 
             <div class="container">
@@ -41,7 +93,7 @@
                     </thead>
                     <tbody class="">
                         <% coins.forEach(coin => { %>
-                            <tr class="border-bottom">
+                            <tr class="border-bottom coin-row">
                                 <td class=" py-3 text-start"><%= coin.market_cap_rank %></td>
                                 <td class="py-3"> 
                                     <a href="/coins/<%= coin.id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark w-100 h-100">
@@ -53,7 +105,13 @@
                                 </td>
                                 <td class="py-3 text-end">$ <%= coin.current_price.toLocaleString() %></td>
                                 <td class="py-3 text-end"><%= coin.price_change_percentage_24h.toFixed(1) %> %</td>
-                                <td class="py-3 text-end">$ <%= coin.total_volume.toLocaleString() %></td>
+                                <td class="py-3 text-end">
+                                    <% if (coin.total_volume !== null && !isNaN(coin.total_volume)) { %>
+                                        $ <%= coin.total_volume.toLocaleString() %>
+                                    <% } else { %>
+                                        N/A
+                                    <% } %>
+                                </td>
                                 <td class="py-3 text-end">$ <%= coin.market_cap.toLocaleString() %></td>
 
                                 
@@ -67,27 +125,29 @@
             </div>
     
 
-            <nav aria-label="...">
-                <ul class="pagination d-flex justify-content-center">
-                    <% if (currentPage > 1) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="<%= currentPage - 1 === 1 ? "/" : "/?page=" + (currentPage - 1) + "&perPage=" + perPage %>">Previous</a>
-                        </li>
-                    <% } %>
+            <div class="pt-5">
+                <nav aria-label="...">
+                    <ul class="pagination d-flex justify-content-center">
+                        <% if (currentPage > 1) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/?page=<%= currentPage - 1 %>&perPage=<%= perPage %>&currency=<%= selectedCurrency %>">Previous</a>
+                            </li>
+                        <% } %>
 
-                    <% for (let i = 1; i <= totalPages; i++ ) { %>
-                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                            <a class="page-link" href="<%= i === 1 ? "/" : "/?page=" + i %>&perPage=<%= perPage %>"><%= i %></a>
-                        </li>
-                    <% } %>
+                        <% for (let i = 1; i <= totalPages; i++ ) { %>
+                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                <a class="page-link" href="<%= i === 1 ? "/" : "/?page=" + i %>&perPage=<%= perPage %>&currency=<%= selectedCurrency %>"><%= i %></a>
+                            </li>
+                        <% } %>
 
-                    <% if (currentPage < totalPages ) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="/?page=<%= currentPage + 1 %>&perPage=<%= perPage %>">Next</a>
-                        </li>
-                    <% } %>
-                </ul>
-            </nav>
+                        <% if (currentPage < totalPages ) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/?page=<%= currentPage + 1 %>&perPage=<%= perPage %>&currency=<%= selectedCurrency %>">Next</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
 
         <% } else { %>
             <div class="p-4 text-center">
@@ -99,5 +159,7 @@
 
     </div>
 </div>
+
+<script src="/public/js/search.js"></script>
 
 <%- include("partials/footer") %>
