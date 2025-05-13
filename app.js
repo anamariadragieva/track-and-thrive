@@ -1,13 +1,15 @@
-// index.js or app.js
+import "./config/env.js";
+
 import express from "express";
 import axios from "axios";
 import path from "path";
 import { fileURLToPath } from 'url';
 
-// to access from .env
-import dotenv from "dotenv";
-import { error } from "console";
-dotenv.config();
+// api
+import { getCoinsData } from "./api/coingecko.js";
+
+
+
 const COINGECKO_API_URL = process.env.COINGECKO_API_URL;
 console.log("the api url:" + COINGECKO_API_URL)
 
@@ -31,60 +33,37 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", async (req, res) => {
   const supportedCurrencies = ["usd", "eur", "gbp", "aud", "cad", "aed", "jpy", "nzd"];
   const selectedCurrency = req.query.currency || "usd";
-
   const page = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 50;
-  const totalPages = 3;
+  const totalPages = 30;
   let coins = [];
   let errorFetching = false;
 
   try {
-    const result = await axios.get(COINGECKO_API_URL + "/coins/markets" , {
-      params: {
-        vs_currency: selectedCurrency,
-        order: "market_cap_desc",
-        per_page: perPage,
-        page,
-        sparkline: true
-      }
-    });
-
-    // Process the result data
-    coins = result.data.map(coin => {
-        // Log the total volume for each coin
-        console.log(`${coin.name} Total Volume:`, coin.total_volume);
-
-        return {
-            ...coin,  // Copy all existing properties from the coin object
-            sparklineData: coin.sparkline_in_7d.price
-        };
-    });
-
-    coins = result.data.map(coin => ({
-      ...coin,  // Copy all existing properties from the coin object
-      sparklineData: coin.sparkline_in_7d.price
-    }));
-
+    coins = await getCoinsData(selectedCurrency, page, perPage);
   } catch (err) {
     console.error('Error fetching coin list:', err.message);
     errorFetching = true;
   }
 
-  console.log(req.query.vs_currency);
+  console.log(coins.length);
   console.log(req.query);
-
   console.log("Selected Currency:", selectedCurrency);
 
-  res.render("home.ejs", {
+  res.render("home.ejs", { 
+    coins,
     supportedCurrencies,
     selectedCurrency,
-    coins,
     currentPage: page,
     perPage,
     totalPages,
-    errorFetching: errorFetching || false
+    errorFetching
   });
+
 });
+
+
+
 
 app.get("/coins/:id", async (req, res) => {
   const coinId = req.params.id;

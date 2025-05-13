@@ -6,39 +6,66 @@
 
         <div class="col-md-4">
 
-            <div class="py-3 border rounded"> 
-                <div class="pb-3">
+            <div class="pb-3">
                     <img src="<%= coin.image %>" class="img-fluid" 
                     style="max-width: 32px;" alt="coin logo">
                     <span class="fw-medium"><%= coin.name %></span>      
                     <span class="text-muted "><%= coin.symbol.toUpperCase() %></span>
-                    <span class="text-muted bg-body-secondary rounded p-1">#<%= coin.market_cap_rank %></span>
+                    <span class="text-muted bg-body-secondary rounded px-1">#<%= coin.market_cap_rank %></span>
+            </div>
+
+            
+            <div class="py-3 align-items-center border rounded"> 
+                    <span class="fw-medium me-2 fs-2 align-middle">$ <%= coin.current_price.toLocaleString() %></span>      
+                    <span class="fw-medium text-success me-2 fs-6 align-baseline">
+                        <i class="bi bi-caret-up-fill"></i>
+                        <%= coin.price_change_percentage_24h.toFixed(1) %> % (1d)
+                    </span>
+                    <span class="align-baseline"><i class="bi bi-info-circle"></i></span>
+            </div> 
+
+         
+            <div class="container my-3 py-3 text-center border rounded">
+                <div class="col-6 p-2 border rounded">
+                    <p class="p-0 m-0 fs-6">Market Cap <span><i class="bi bi-info-circle"></i></span></p>
+                    <span class="fw-medium">$ <%= coin.market_cap.toLocaleString() %></span>      
                 </div>
-                <div class="py-3 align-items-center border rounded"> 
-                    <span class="fw-medium me-2">$ <%= coin.current_price.toLocaleString() %></span>      
-                    <span class="fw-medium text-success me-2"> up by <%= coin.price_change_percentage_24h.toFixed(1) %> % (1d)</span>
-                    <span><i class="bi bi-info-circle"></i></span>
-                </div>  
+                <div class="col-6 p-2 border rounded">
+                    <p class="p-0 m-0 fs-6">Volume (24h) <span><i class="bi bi-info-circle"></i></span></p>
+                    <span class="fw-medium">$ <%= coin.total_volume.toLocaleString() %></span>  
+                </div>
 
+            </div>
+  
 
-                <div class=" py-3 border rounded">
-                    <div class="row row-cols-2 g-3 py-3 text-center border rounded">
-                        <div class="col p-2  me-1 border rounded">
-                            <p class="p-0 m-0 fs-6">Market Cap <span><i class="bi bi-info-circle"></i></span></p>
-                            <span class="fw-medium">$ <%= coin.market_cap.toLocaleString() %></span>      
+            <div class="container text-center my-3 py-3 px-0 border rounded">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="p-3 border rounded text-wrap  fs-6">
+                            Custom column paddinggg rrhehe erhwghwhwr rhwhg
+                           
+
                         </div>
-                        <div class="col p-2 border rounded">
-                            <p class="p-0 m-0 fs-6">Volume (24h) <span><i class="bi bi-info-circle"></i></span></p>
-                            <span class="fw-medium">$ <%= coin.total_volume.toLocaleString() %></span>  
-                        </div>
-                        <div class="col p-2 border rounded">Grid item 3</div>
-                        <div class="col p-2 border rounded">Grid item 4</div>
-                        <div class="col p-2 border rounded">Grid item 5</div>
-                        <div class="col p-2 border rounded">Grid item 6</div>
-
-                        <div class="col-12 p-2 border rounded">Grid item 7</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 border rounded">Custom column padding</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 border rounded">Custom column padding</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 border rounded">Custom column padding</div>
                     </div>
                 </div>
+            </div>
+
+
+
+            <div class="py-3 border rounded"> 
+                 
+
+
+
 
 
 

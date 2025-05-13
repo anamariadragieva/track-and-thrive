@@ -104,7 +104,17 @@
                                     </a>
                                 </td>
                                 <td class="py-3 text-end">$ <%= coin.current_price.toLocaleString() %></td>
-                                <td class="py-3 text-end"><%= coin.price_change_percentage_24h.toFixed(1) %> %</td>
+                                <td class="py-3 text-end">
+                                    <% if (coin.price_change_percentage_24h !== null && !isNaN(coin.price_change_percentage_24h)) { %>
+                                        <%= coin.price_change_percentage_24h.toLocaleString() %> %
+                                    <% } else { %>
+                                        N/A
+                                    <% } %>
+
+
+
+                                    
+                                </td>
                                 <td class="py-3 text-end">
                                     <% if (coin.total_volume !== null && !isNaN(coin.total_volume)) { %>
                                         $ <%= coin.total_volume.toLocaleString() %>
@@ -136,7 +146,7 @@
 
                         <% for (let i = 1; i <= totalPages; i++ ) { %>
                             <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                <a class="page-link" href="<%= i === 1 ? "/" : "/?page=" + i %>&perPage=<%= perPage %>&currency=<%= selectedCurrency %>"><%= i %></a>
+                                <a class="page-link" href="/?page=<%= i %>&perPage=<%= perPage %>&currency=<%= selectedCurrency %>"><%= i %></a>
                             </li>
                         <% } %>
 
