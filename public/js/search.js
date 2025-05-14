@@ -1,21 +1,36 @@
-// searchInput.addEventListener("input", e => {
-//     const value = e.target.value
-//     console.log(value)
-// })
+import axios from "axios";
 
+import axios from "axios"; // Make sure you're using a bundler like Vite, Webpack, etc., or use CDN version if not.
 
+$(document).ready(function () {
+  $("#search").on("input", async function () {
+    const searchTerm = $(this).val().toLowerCase();
+    const $results = $("#searchResults");
+    $results.empty();
 
-// document.addEventListener("DOMContentLoaded", () => {
-//     const searchInput = document.getElementById("search");
-//     const rows = document.querySelectorAll(".coin-row");
+    if (searchTerm.length === 0) return;
 
-//     searchInput.addEventListener("input", () => {
-//             const query = searchInput.value.toLowerCase();
+    try {
+      const response = await axios.get("/api/coins");
+      const coins = response.data;
 
-//         rows.forEach(row => {
-//             const tds = row.querySelectorAll('td');
-//             const coinName = tds[1]?.textContent.toLowerCase() || "";
-//             row.style.display = coinName.includes(query) ? "" : "none";
-//         });
-//     });
-// });
+      const filtered = coins.filter(coin =>
+        coin.name.toLowerCase().includes(searchTerm)
+      ).slice(0, 10);
+
+      if (filtered.length === 0) {
+        $results.append(`<li class="list-group-item">No results found.</li>`);
+        return;
+      }
+
+      filtered.forEach(coin => {
+        const item = `<li class="list-group-item">${coin.name}</li>`;
+        $results.append(item);
+      });
+
+    } catch (err) {
+      console.error("Search error:", err);
+      $results.append(`<li class="list-group-item">Error fetching data.</li>`);
+    }
+  });
+});

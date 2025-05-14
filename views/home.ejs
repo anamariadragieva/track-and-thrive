@@ -11,13 +11,16 @@
         </div>
         
         <div class="col-lg-6 mx-auto search-container mb-3">
-            <form method="GET" action="/">
-                <label for="search" class="visually-hidden">Search</label>
+            <!-- <form method="GET" action="/"> -->
+                
                 <input type="search" class="form-control search-input" id="search" placeholder="Search coin by name...">
                 <i class="bi bi-search search-icon"></i>
-            </form>
+                <ul id="search-results" class="list-group position-absolute w-100 z-3"></ul>
+                
+            <!-- </form> -->
             
         </div>
+        
     </div>
 
     <div class="py-5 g-3 ">

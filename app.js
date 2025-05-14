@@ -39,6 +39,8 @@ app.get("/", async (req, res) => {
   let coins = [];
   let errorFetching = false;
 
+  let searchInput = [];
+
   try {
     coins = await getCoinsData(selectedCurrency, page, perPage);
   } catch (err) {
@@ -46,7 +48,8 @@ app.get("/", async (req, res) => {
     errorFetching = true;
   }
 
-  console.log(req.query);
+
+  console.log(coins.map(coin => coin.name));
   console.log("Selected Currency:", selectedCurrency);
 
   res.render("home.ejs", { 
@@ -78,6 +81,17 @@ app.get("/coins/:id", async (req, res) => {
     coin: coin[0]
   });
 });
+
+// FOR SEARCH BAR
+app.get("/api/coins", async (req, res) => {
+  try {
+    const coins = await getCoinsData("usd", 1, 250); // Adjust as needed
+    res.json(coins);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch coins" });
+  }
+});
+
 
 
 // Start the server
