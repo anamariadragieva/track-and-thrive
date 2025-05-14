@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 
 // api
 import { getCoinsData } from "./api/coingecko.js";
-
+import { getCoinData } from "./api/coingecko.js";
 
 
 const COINGECKO_API_URL = process.env.COINGECKO_API_URL;
@@ -46,8 +46,6 @@ app.get("/", async (req, res) => {
     errorFetching = true;
   }
 
-  console.log(coins);
-  console.log(coins.length);
   console.log(req.query);
   console.log("Selected Currency:", selectedCurrency);
 
@@ -64,32 +62,22 @@ app.get("/", async (req, res) => {
 });
 
 
-
-
 app.get("/coins/:id", async (req, res) => {
   const coinId = req.params.id;
   let coin = [];
 
   try {
-    const result = await axios.get(`${COINGECKO_API_URL}/coins/markets` , {
-      params: {
-        vs_currency: "usd",
-        ids: coinId
-      }
-    });
-
-    coin = result.data;
+    coin = await getCoinData(selectedCurrency, coinId);
     console.log(coin);
+
   } catch (err) {
     console.error('Error fetching coin data:', err.message);
   }
 
   res.render("coin.ejs", {
     coin: coin[0]
-
   });
 });
-
 
 
 // Start the server

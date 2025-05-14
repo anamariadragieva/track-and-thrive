@@ -1,0 +1,20 @@
+                    <li class="nav-item">
+                        <form method="GET" action="/" class="mb-3 text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <%= selectedCurrency.toUpperCase() %>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <% supportedCurrencies.forEach(currency => { %>
+                                        <li>
+                                            <button type="submit" name="currency" value="<%= currency %>" class="dropdown-item">
+                                                <%= currency.toUpperCase() %>
+                                            </button>
+                                        </li>                  
+                                    <% }); %>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="page" value="<%= currentPage %>">
+                            <input type="hidden" name="perPage" value="<%= perPage %>">
+                        </form>
+                    </li>

@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const COINGECKO_API_URL = process.env.COINGECKO_API_URL;
-
 console.log("COINGECKO_API_URL:"+ COINGECKO_API_URL);
-console.log("the api url:" + COINGECKO_API_URL)
 
+// All coins data
 export const getCoinsData = async (selectedCurrency, page, perPage) => {
 
     const result = await axios.get(COINGECKO_API_URL + "/coins/markets", {
@@ -18,4 +17,16 @@ export const getCoinsData = async (selectedCurrency, page, perPage) => {
     return result.data;
 };
 
+
+// Single coin data
+export const getCoinData = async (selectedCurrency, coinId) => {
+
+    const result = await axios.get(COINGECKO_API_URL + "/coins/markets", {
+        params: {
+            ids: coinId
+        }
+    });
+
+    return result.data;
+};
 
