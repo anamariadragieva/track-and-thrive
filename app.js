@@ -35,7 +35,7 @@ app.get("/", async (req, res) => {
   const selectedCurrency = req.query.currency || "usd";
   const page = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 50;
-  const totalPages = 30;
+  const totalPages = 50;
   let coins = [];
   let errorFetching = false;
 
@@ -46,6 +46,7 @@ app.get("/", async (req, res) => {
     errorFetching = true;
   }
 
+  console.log(coins);
   console.log(coins.length);
   console.log(req.query);
   console.log("Selected Currency:", selectedCurrency);
