@@ -17,10 +17,23 @@
             
             <div class="py-3 align-items-center border rounded"> 
                     <span class="fw-medium me-2 fs-2 align-middle">$ <%= coin.current_price.toLocaleString() %></span>      
-                    <span class="fw-medium text-success me-2 fs-6 align-baseline">
-                        <i class="bi bi-caret-up-fill"></i>
-                        <%= coin.price_change_percentage_24h.toFixed(1) %> % (1d)
-                    </span>
+                    
+                    <!-- ADD IF ELSE TO SHOW UP/DOWN PRICE CHANGE -->
+                    <% if (coin.price_change_percentage_24h >= 0) { %>
+                        <span class="fw-medium text-success me-2 fs-6 align-baseline">
+                            <i class="bi bi-caret-up-fill"></i>
+                            <%= coin.price_change_percentage_24h.toFixed(1) %> % (1d)
+                        </span>
+
+                    <% } else { %>
+                        <span class="fw-medium text-danger me-2 fs-6 align-baseline">
+                            <i class="bi bi-caret-down-fill"></i>
+                            <%= coin.price_change_percentage_24h.toFixed(1) %> % (1d)
+                        </span>
+                    <% } %>
+                        
+                        
+                    
                     <span class="align-baseline"><i class="bi bi-info-circle"></i></span>
             </div> 
 
