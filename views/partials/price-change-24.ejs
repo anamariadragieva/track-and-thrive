@@ -1,0 +1,19 @@
+<!-- ADD IF ELSE TO SHOW UP/DOWN PRICE CHANGE -->
+<% if (coin.price_change_percentage_24h >= 0) { %>
+    <span class="fw-medium text-success me-2 fs-6 align-baseline">
+        <i class="bi bi-caret-up-fill"></i>
+        <%= coin.price_change_percentage_24h.toFixed(2) %> %
+        <% if (page) { %>
+            (1d)
+        <% } %>
+    </span>
+
+<% } else { %>
+    <span class="fw-medium text-danger me-2 fs-6 align-baseline">
+        <i class="bi bi-caret-down-fill"></i>
+        <%= coin.price_change_percentage_24h.toFixed(2) %> % 
+        <% if (page) { %>
+            (1d)
+        <% } %>
+    </span>
+<% } %>

@@ -5,6 +5,26 @@ import axios from 'https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm';
 //   .then(response => console.log(response.data))
 //   .catch(error => console.error(error));
 
+function addSearchResult(coin) {
+
+  const isPositive = coin.price_change_percentage_24h >= 0;
+  const priceChange = isPositive ? "text-success" : "text-danger";
+  const cadetIcon = isPositive ? "bi-caret-up-fill" : "bi-caret-down-fill";
+
+  return `<li class="list-group-item">
+            <a href="/coins/${coin.id}" class="d-flex align-items-center gap-3 text-decoration-none text-dark w-100 h-100">
+              <img src="${coin.image}" class="img-fluid" style="max-width: 26px;" alt="coin logo">
+              <span class="fw-medium text-start">${coin.name}</span>
+              <span class="text-muted">${coin.symbol.toUpperCase()}</span>
+        
+              
+              <span class="ms-auto text-end fw-light ${priceChange}">
+                <i class="bi ${cadetIcon} fa-xs"></i>
+                ${coin.price_change_percentage_24h.toFixed(2)} % (1d)
+              </span>
+            </a>
+          </li>`;
+}
 
 $(document).ready(function () {
   let coinsList = [];
@@ -45,20 +65,7 @@ $(document).ready(function () {
     }
 
     filtered.forEach(coin => {
-      const item = `<li class="list-group-item">
-        <a href="/coins/${coin.id}" class="d-flex align-items-center gap-3 text-decoration-none text-dark w-100 h-100">
-          <img src="${coin.image}" class="img-fluid" style="max-width: 26px;" alt="coin logo">
-          <span class="fw-medium text-start">${coin.name}</span>
-          <span class="text-muted">${coin.symbol.toUpperCase()}</span>
-        
-          <span class="ms-auto text-end fw-light text-success">
-            <i class="bi bi-caret-up-fill fa-xs"></i>
-            ${coin.price_change_percentage_24h.toFixed(1)} % (1d)
-          </span>
-        </a>
-        
-        </li>`;
-      results.append(item);
+      results.append(addSearchResult(coin));
     });
 
   
