@@ -11,14 +11,9 @@
         </div>
         
         <div class="col-lg-6 mx-auto search-container mb-3">
-            <!-- <form method="GET" action="/"> -->
-                
-                <input type="search" class="form-control search-input" id="search" placeholder="Search coin by name...">
+                <input type="search" class="form-control search-input" id="search" placeholder="Search coin by name or symbol...">
                 <i class="bi bi-search search-icon"></i>
                 <ul id="search-results" class="list-group position-absolute w-100 z-3"></ul>
-                
-            <!-- </form> -->
-            
         </div>
         
     </div>
@@ -84,6 +79,7 @@
                                 <tr class="border-bottom coin-row">
                                     <td class=" py-3 text-start text-nowrap"><%= coin.market_cap_rank %></td>
 
+                                    <!-- LOOK HERE -->
                                     <td class="py-3"> 
                                         <a href="/coins/<%= coin.id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark w-100 h-100">
                                             <img src="<%= coin.image %>" class="img-fluid" 
@@ -180,6 +176,5 @@
     </div>
 </div>
 
-<script src="/public/js/search.js"></script>
 
 <%- include("partials/footer") %>

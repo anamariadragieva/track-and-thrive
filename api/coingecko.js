@@ -23,7 +23,8 @@ export const getCoinData = async (selectedCurrency, coinId) => {
 
     const result = await axios.get(COINGECKO_API_URL + "/coins/markets", {
         params: {
-            ids: coinId
+            ids: coinId,
+            vs_currency: selectedCurrency
         }
     });
 

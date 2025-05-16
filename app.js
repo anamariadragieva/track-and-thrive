@@ -66,6 +66,7 @@ app.get("/", async (req, res) => {
 
 
 app.get("/coins/:id", async (req, res) => {
+  const selectedCurrency = req.query.currency || "usd";
   const coinId = req.params.id;
   let coin = [];
 
@@ -76,16 +77,18 @@ app.get("/coins/:id", async (req, res) => {
   } catch (err) {
     console.error('Error fetching coin data:', err.message);
   }
+  console.log(coin.map(coin => coin.image));
 
   res.render("coin.ejs", {
-    coin: coin[0]
+    coin: coin[0],
+    selectedCurrency
   });
 });
 
 // FOR SEARCH BAR
 app.get("/api/coins", async (req, res) => {
   try {
-    const coins = await getCoinsData("usd", 1, 250); // Adjust as needed
+    const coins = await getCoinsData("usd", 1, 250);
     res.json(coins);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch coins" });
