@@ -66,59 +66,61 @@
 
 
             <div class="container">
-                <table class="table table-borderless table-hover mb-0">
-                    <thead class="sticky-top bg-white header-shadow" style="z-index: 1">
-                        <tr class="align-middle">
-                            <th scope="col" class="text-start">#</th>
-                            <th scope="col" class="text-start">Coin</th>
-                            <th scope="col" class="text-end">Price</th>
-                            <th scope="col" class="text-end">24h %</th>
-                            <th scope="col" class="text-end">24h Volume</th>
-                            <th scope="col" class="text-end">Market Cap</th>
-                            <th scope="col" class="text-end">Last 7 Days</th>
-                        </tr>
-                    </thead>
-                    <tbody class="">
-                        <% coins.forEach(coin => { %>
-                            <tr class="border-bottom coin-row">
-                                <td class=" py-3 text-start"><%= coin.market_cap_rank %></td>
-                                <td class="py-3"> 
-                                    <a href="/coins/<%= coin.id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark w-100 h-100">
-                                        <img src="<%= coin.image %>" class="img-fluid" 
-                                            style="max-width: 32px;" alt="coin logo">
-                                        <span class="fw-medium"><%= coin.name %></span>      
-                                        <span class="text-muted"><%= coin.symbol.toUpperCase() %></span>
-                                    </a>
-                                </td>
-                                <td class="py-3 text-end">$ <%= coin.current_price.toLocaleString() %></td>
-                                <td class="py-3 text-end">
-                                    <% if (coin.price_change_percentage_24h !== null && !isNaN(coin.price_change_percentage_24h)) { %>
-                                        <%= coin.price_change_percentage_24h.toLocaleString() %> %
-                                    <% } else { %>
-                                        N/A
-                                    <% } %>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle mb-0 w-auto">
+                        <thead class="sticky-top bg-white header-shadow" style="z-index: 1">
+                            <tr class="align-middle">
+                                <th scope="col" class="text-start">#</th>
+                                <th scope="col" class="text-start">Coin</th>
+                                <th scope="col" class="text-end" width="10%">Price</th>
+                                <th scope="col" class="text-end" width="10%">24h %</th>
+                                <th scope="col" class="text-end" width="15%">24h Volume</th>
+                                <th scope="col" class="text-end">Market Cap</th>
+                                <th scope="col" class="text-end">Last 7 Days</th>
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            <% coins.forEach(coin => { %>
+                                <tr class="border-bottom coin-row">
+                                    <td class=" py-3 text-start text-nowrap"><%= coin.market_cap_rank %></td>
 
+                                    <td class="py-3"> 
+                                        <a href="/coins/<%= coin.id %>" class="d-flex align-items-center gap-2 text-decoration-none text-dark w-100 h-100">
+                                            <img src="<%= coin.image %>" class="img-fluid" 
+                                                style="max-width: 32px;" alt="coin logo">
+                                            <span class="fw-medium"><%= coin.name %></span>      
+                                            <span class="text-muted"><%= coin.symbol.toUpperCase() %></span>
+                                        </a>
+                                    </td>
 
+                                    <td class="py-3 text-end text-nowrap">$ <%= coin.current_price.toLocaleString() %></td>
+
+                                    <td class="py-3 text-end text-nowrap">
+                                        <% if (coin.price_change_percentage_24h !== null && !isNaN(coin.price_change_percentage_24h)) { %>
+                                            <%= coin.price_change_percentage_24h.toLocaleString() %> %
+                                        <% } else { %>
+                                            N/A
+                                        <% } %>
+                                    </td>
+
+                                    <td class="py-3 text-end text-nowrap">
+                                        <% if (coin.total_volume !== null && !isNaN(coin.total_volume)) { %>
+                                            $ <%= coin.total_volume.toLocaleString() %>
+                                        <% } else { %>
+                                            N/A
+                                        <% } %>
+                                    </td>
+                                    <td class="py-3 text-end text-nowrap">$ <%= coin.market_cap.toLocaleString() %></td>
 
                                     
-                                </td>
-                                <td class="py-3 text-end">
-                                    <% if (coin.total_volume !== null && !isNaN(coin.total_volume)) { %>
-                                        $ <%= coin.total_volume.toLocaleString() %>
-                                    <% } else { %>
-                                        N/A
-                                    <% } %>
-                                </td>
-                                <td class="py-3 text-end">$ <%= coin.market_cap.toLocaleString() %></td>
-
-                                
-                                <td class="py-3 text-end">
-                                    <canvas id="sparkline-<%= coin.id %>" width="100" height="20"></canvas>
-                                </td>
-                            </tr>       
-                        <% }) %>
-                    </tbody>
-                </table>
+                                    <td class="py-3 text-end">
+                                        <canvas id="sparkline-<%= coin.id %>" width="100" height="20"></canvas>
+                                    </td>
+                                </tr>       
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
     
 
