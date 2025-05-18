@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 // api
 import { getCoinsData } from "./api/coingecko.js";
 import { getCoinData } from "./api/coingecko.js";
+import { generatePriceChart } from "./api/coingecko.js";
 
 
 const COINGECKO_API_URL = process.env.COINGECKO_API_URL;
@@ -33,13 +34,22 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", async (req, res) => {
   const supportedCurrencies = ["usd", "eur", "gbp", "aud", "cad", "aed", "jpy", "nzd"];
   const selectedCurrency = req.query.currency || "usd";
+  const currenciesSymbols = {
+    usd: "$",
+    eur: "€", 
+    gbp: "£", 
+    aud: "AU$", 
+    cad: "CA$", 
+    aed: "د.إ", 
+    jpy: "¥", 
+    nzd: "NZ$"
+    };
+  const currencySymbol = currenciesSymbols[selectedCurrency] || "";
   const page = parseInt(req.query.page) || 1;
   const perPage = parseInt(req.query.perPage) || 50;
   const totalPages = 50;
   let coins = [];
   let errorFetching = false;
-
-  let searchInput = [];
 
   try {
     coins = await getCoinsData(selectedCurrency, page, perPage);
@@ -56,6 +66,7 @@ app.get("/", async (req, res) => {
     coins,
     supportedCurrencies,
     selectedCurrency,
+    currencySymbol,
     currentPage: page,
     perPage,
     totalPages,
@@ -67,12 +78,21 @@ app.get("/", async (req, res) => {
 
 app.get("/coins/:id", async (req, res) => {
   const selectedCurrency = req.query.currency || "usd";
+  const currencySymbol = "$";
   const coinId = req.params.id;
   let coin = [];
+
+  let chartLabels = [];
+  let chartDataPoints = [];
 
   try {
     coin = await getCoinData(selectedCurrency, coinId);
     console.log(coin);
+
+    const chartData = await generatePriceChart(selectedCurrency, coinId);
+
+    chartLabels = chartData.prices.map(p => new Date(p[0]).toLocaleDateString());
+    chartDataPoints = chartData.prices.map(p => p[1]);
 
   } catch (err) {
     console.error('Error fetching coin data:', err.message);
@@ -81,7 +101,10 @@ app.get("/coins/:id", async (req, res) => {
 
   res.render("coin.ejs", {
     coin: coin[0],
-    selectedCurrency
+    selectedCurrency,
+    currencySymbol,
+    chartLabels,
+    chartDataPoints
   });
 });
 

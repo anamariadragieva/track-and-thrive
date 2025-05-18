@@ -1,10 +1,6 @@
 // search.js
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm';
 
-// axios.get('/api/search?query=test')
-//   .then(response => console.log(response.data))
-//   .catch(error => console.error(error));
-
 function addSearchResult(coin) {
 
   const isPositive = coin.price_change_percentage_24h >= 0;

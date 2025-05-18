@@ -88,7 +88,7 @@
                                         </a>
                                     </td>
 
-                                    <td class="py-3 text-end text-nowrap">$ <%= coin.current_price.toLocaleString() %></td>
+                                    <td class="py-3 text-end text-nowrap"><%= currencySymbol %> <%= coin.current_price.toLocaleString() %></td>
 
                                     <td class="py-3 text-end text-nowrap">
                                         <% if (coin.price_change_percentage_24h !== null && !isNaN(coin.price_change_percentage_24h)) { %>
@@ -102,12 +102,14 @@
 
                                     <td class="py-3 text-end text-nowrap">
                                         <% if (coin.total_volume !== null && !isNaN(coin.total_volume)) { %>
-                                            $ <%= coin.total_volume.toLocaleString() %>
+                                            <%= currencySymbol %> <%= coin.total_volume.toLocaleString() %>
                                         <% } else { %>
                                             N/A
                                         <% } %>
                                     </td>
-                                    <td class="py-3 text-end text-nowrap">$ <%= coin.market_cap.toLocaleString() %></td>
+
+                                    <td class="py-3 text-end text-nowrap"><%= currencySymbol %> <%= coin.market_cap.toLocaleString() %>
+                                    </td>
 
                                     
                                     <td class="py-3 text-end">

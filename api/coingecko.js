@@ -31,3 +31,17 @@ export const getCoinData = async (selectedCurrency, coinId) => {
     return result.data;
 };
 
+
+/// chart
+
+export const generatePriceChart = async (selectedCurrency, coinId) => {
+
+    const result = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}/market_chart`, {
+        params: {
+            vs_currency: selectedCurrency,
+            days: 7
+        }
+    });
+
+    return result.data;
+}

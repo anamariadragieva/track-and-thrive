@@ -16,7 +16,7 @@
 
             
             <div class="py-3 align-items-center border rounded"> 
-                    <span class="fw-medium me-2 fs-2 align-middle">$ <%= coin.current_price.toLocaleString() %></span>      
+                    <span class="fw-medium me-2 fs-2 align-middle"><%= currencySymbol %> <%= coin.current_price.toLocaleString() %></span>      
                     <%- include("partials/price-change-24", { page: true }) %>
                     <span class="align-baseline"><i class="bi bi-info-circle"></i></span>
             </div> 
@@ -25,11 +25,11 @@
             <div class="container my-3 py-3 text-center border rounded">
                 <div class="col-6 p-2 border rounded">
                     <p class="p-0 m-0 fs-6">Market Cap <span><i class="bi bi-info-circle"></i></span></p>
-                    <span class="fw-medium">$ <%= coin.market_cap.toLocaleString() %></span>      
+                    <span class="fw-medium"><%= currencySymbol %> <%= coin.market_cap.toLocaleString() %></span>      
                 </div>
                 <div class="col-6 p-2 border rounded">
                     <p class="p-0 m-0 fs-6">Volume (24h) <span><i class="bi bi-info-circle"></i></span></p>
-                    <span class="fw-medium">$ <%= coin.total_volume.toLocaleString() %></span>  
+                    <span class="fw-medium"><%= currencySymbol %> <%= coin.total_volume.toLocaleString() %></span>  
                 </div>
 
             </div>
@@ -100,18 +100,20 @@
 
             </div>
 
+            <div>
+                <canvas id="priceChart" width="400" height="200"></canvas>
+
+                    <script>
+                        const chartLabels = <%- JSON.stringify(chartLabels) %>;
+                        const chartDataPoints = <%- JSON.stringify(chartDataPoints) %>;
+                    </script>
+
+                    <script>
+                        console.log("Labels:", <%- JSON.stringify(chartLabels) %>);
+                    </script>
+            </div>
         </div>
-
-       
-
-
-
-      
-
-
     </div>
-
-    
 </div>
 
 <%- include("partials/footer") %>
