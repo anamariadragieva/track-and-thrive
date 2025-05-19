@@ -6,16 +6,16 @@
         <h1 class="display-5 fw-bold text-body-emphasis">track & thrive</h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">
-            Welcome to the world's largest cryptocurrency marketplace.
+            Welcome to the world's largest cryptocurrency price tracker.
+            </p>
+            <p class="fs-5 mb-4">
+            Supporting over 17,000+ cryptocurrencies in one place.
             </p>
         </div>
         
-        <div class="col-lg-6 mx-auto search-container mb-3">
-                <input type="search" class="form-control search-input" id="search" placeholder="Search coin by name or symbol...">
-                <i class="bi bi-search search-icon"></i>
-                <ul id="search-results" class="list-group position-absolute w-100 z-3"></ul>
-        </div>
         
+        <%- include("partials/search-bar") %>
+       
     </div>
 
     <div class="py-5 g-3 ">
@@ -32,13 +32,13 @@
 
 
             <div class="container">
-                <ul class="nav nav-pills g-2 justify-content-end">
+                <ul class="nav nav-pills g-5 justify-content-end">
                     <%- include("partials/currency") %>
                 
                     <li class="nav-item">
                         <form method="GET" action="/" class="mb-3 text-end">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                     Show <%= perPage %>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -70,8 +70,8 @@
                                 <th scope="col" class="text-end" width="10%">Price</th>
                                 <th scope="col" class="text-end" width="10%">24h %</th>
                                 <th scope="col" class="text-end" width="15%">24h Volume</th>
-                                <th scope="col" class="text-end">Market Cap</th>
-                                <th scope="col" class="text-end">Last 7 Days</th>
+                                <th scope="col" class="text-end" width="15%">Market Cap</th>
+                                <th scope="col" class="text-end" width="15%">Last 7 Days</th>
                             </tr>
                         </thead>
                         <tbody class="">
@@ -88,7 +88,12 @@
                                         </a>
                                     </td>
 
-                                    <td class="py-3 text-end text-nowrap"><%= currencySymbol %> <%= coin.current_price.toLocaleString() %></td>
+                                    <td class="py-3 text-end text-nowrap"><%= currencySymbol %> <%= coin.current_price.toLocaleString("en-US", { 
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+
+                                        }) %>
+                                    </td>
 
                                     <td class="py-3 text-end text-nowrap">
                                         <% if (coin.price_change_percentage_24h !== null && !isNaN(coin.price_change_percentage_24h)) { %>
@@ -112,8 +117,10 @@
                                     </td>
 
                                     
-                                    <td class="py-3 text-end">
-                                        <canvas id="sparkline-<%= coin.id %>" width="100" height="20"></canvas>
+                                    <td class="py-2">
+                                        <div class="d-flex justify-content-end">
+                                            <canvas id="sparkline-<%= coin.id %>" width="140" height="40"></canvas>
+                                        </div>
                                     </td>
                                 </tr>       
                             <% }) %>
@@ -121,7 +128,7 @@
                     </table>
                 </div>
             </div>
-    
+
 
             <div class="pt-5">
                 <nav aria-label="Page navigation">

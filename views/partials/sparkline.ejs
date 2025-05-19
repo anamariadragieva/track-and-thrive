@@ -1,0 +1,45 @@
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    <% coins.forEach(coin => { %>
+      {
+        const canvas = document.getElementById("sparkline-<%= coin.id %>");
+        if (!canvas) return;
+
+        new Chart(canvas, {
+          type: 'line',
+          data: {
+            labels: Array(<%= coin.sparkline_in_7d.price.length %>).fill(""),
+            datasets: [{
+              data: <%- JSON.stringify(coin.sparkline_in_7d.price) %>,
+              borderColor: "<%= coin.price_change_percentage_7d_in_currency >= 0 ? '#4CAF50' : '#F44336' %>",
+              borderWidth: 1.5,
+              pointRadius: 0,
+              tension: 0.3,
+              fill: true,
+              backgroundColor: "<%= coin.price_change_percentage_7d_in_currency >= 0 ? '#4CAF5050' : '#F4433650' %>"
+            }]
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false }
+            },
+            scales: {
+              x: { display: false },
+              y: {
+                min: <%= Math.min(...coin.sparkline_in_7d.price) %>,
+                max: <%= Math.max(...coin.sparkline_in_7d.price) %>,
+                grace: 0,
+                display: false
+              },
+
+
+            }
+          }
+        });
+      }
+    <% }) %>
+  });
+</script>

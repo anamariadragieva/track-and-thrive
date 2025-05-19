@@ -11,6 +11,8 @@ export const getCoinsData = async (selectedCurrency, page, perPage) => {
             vs_currency: selectedCurrency,
             page,
             per_page: perPage,
+            price_change_percentage: "7d",
+            sparkline: true
         }
     });
 
@@ -24,7 +26,8 @@ export const getCoinData = async (selectedCurrency, coinId) => {
     const result = await axios.get(COINGECKO_API_URL + "/coins/markets", {
         params: {
             ids: coinId,
-            vs_currency: selectedCurrency
+            vs_currency: selectedCurrency,
+            sparkline: true
         }
     });
 
@@ -39,7 +42,8 @@ export const generatePriceChart = async (selectedCurrency, coinId) => {
     const result = await axios.get(`${COINGECKO_API_URL}/coins/${coinId}/market_chart`, {
         params: {
             vs_currency: selectedCurrency,
-            days: 7
+            days: 1,
+            precision: 2
         }
     });
 

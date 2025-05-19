@@ -19,6 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     options: {
       responsive: true,
+      scales: {
+        x: {
+          ticks: {
+            autoSkip: true,
+            autoSkipPadding: 30
+          }
+        }
+      },
       plugins: {
         legend: { display: false }
       }

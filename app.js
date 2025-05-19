@@ -46,7 +46,7 @@ app.get("/", async (req, res) => {
     };
   const currencySymbol = currenciesSymbols[selectedCurrency] || "";
   const page = parseInt(req.query.page) || 1;
-  const perPage = parseInt(req.query.perPage) || 50;
+  const perPage = parseInt(req.query.perPage) || 25;
   const totalPages = 50;
   let coins = [];
   let errorFetching = false;
@@ -61,6 +61,8 @@ app.get("/", async (req, res) => {
 
   console.log(coins.map(coin => coin.name));
   console.log("Selected Currency:", selectedCurrency);
+
+  console.log(coins);
 
   res.render("home.ejs", { 
     coins,
@@ -91,13 +93,24 @@ app.get("/coins/:id", async (req, res) => {
 
     const chartData = await generatePriceChart(selectedCurrency, coinId);
 
-    chartLabels = chartData.prices.map(p => new Date(p[0]).toLocaleDateString());
+    console.log(chartData.prices);
+    chartLabels = chartData.prices.map(p => 
+      new Date(p[0]).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short"
+      })
+    );
     chartDataPoints = chartData.prices.map(p => p[1]);
 
   } catch (err) {
     console.error('Error fetching coin data:', err.message);
   }
-  console.log(coin.map(coin => coin.image));
+  console.log("image:" + coin.map(coin => coin.image));
+  
+  console.log("chartLabels:" + chartLabels);
+  console.log("chartDataPoints:" + chartDataPoints);
+
+
 
   res.render("coin.ejs", {
     coin: coin[0],
