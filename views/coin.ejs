@@ -81,31 +81,39 @@
 
         </div>
 
+        <!-- ----- main ----- -->
+
         <div class="col-md-8">
 
+            <!-- Navigation Tab -->
+            <div class="nav-scroller py-1 mb-3 border-bottom">
+
+                <nav class="nav nav-underline g-2">
+
+                    <a class=" btn btn-primary" href="#">Overview</a>
+                    <a class=" btn btn-primary" href="#">Markets</a>
+                    <a class=" btn btn-primary" href="#">News</a>
+                    <a class=" btn btn-primary" href="#">Historical Data</a>
+
+                </nav>
+            </div>
             <div class="position-sticky">
 
                 <article class="blog-post">
                     <h2 class="display-5 link-body-emphasis mb-1">New feature</h2>
                     <p class="blog-post-meta">December 14, 2020 by <a href="#">Chris</a></p>
-            
                     <p>This is some additional paragraph placeholder content. It has been written to fill the available space and show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the demonstration flowing, so be on the lookout for this exact same string of text.</p>
-                    <ul>
-                    <li>First list item</li>
-                    <li>Second list item with a longer description</li>
-                    <li>Third list item to close it out</li>
-                    </ul>
-                    <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>
                 </article>
 
             </div>
 
             <div>
-                <canvas id="priceChart" width="400" height="200"></canvas>
-
+                <canvas id="sparkline-<%= coin.id %>" width="800" height="500"></canvas>
             </div>
         </div>
     </div>
 </div>
+
+<%- include("partials/coin-sparkline") %>
 
 <%- include("partials/footer") %>

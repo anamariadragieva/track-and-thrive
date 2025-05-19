@@ -8,8 +8,6 @@ import { fileURLToPath } from 'url';
 // api
 import { getCoinsData } from "./api/coingecko.js";
 import { getCoinData } from "./api/coingecko.js";
-import { generatePriceChart } from "./api/coingecko.js";
-
 
 const COINGECKO_API_URL = process.env.COINGECKO_API_URL;
 console.log("the api url:" + COINGECKO_API_URL)
@@ -84,42 +82,24 @@ app.get("/coins/:id", async (req, res) => {
   const coinId = req.params.id;
   let coin = [];
 
-  let chartLabels = [];
-  let chartDataPoints = [];
-
   try {
     coin = await getCoinData(selectedCurrency, coinId);
     console.log(coin);
-
-    const chartData = await generatePriceChart(selectedCurrency, coinId);
-
-    console.log(chartData.prices);
-    chartLabels = chartData.prices.map(p => 
-      new Date(p[0]).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short"
-      })
-    );
-    chartDataPoints = chartData.prices.map(p => p[1]);
 
   } catch (err) {
     console.error('Error fetching coin data:', err.message);
   }
   console.log("image:" + coin.map(coin => coin.image));
   
-  console.log("chartLabels:" + chartLabels);
-  console.log("chartDataPoints:" + chartDataPoints);
-
-
+  console.log(coin.map(coin => coin.sparkline));
 
   res.render("coin.ejs", {
     coin: coin[0],
     selectedCurrency,
-    currencySymbol,
-    chartLabels,
-    chartDataPoints
+    currencySymbol
   });
 });
+
 
 // FOR SEARCH BAR
 app.get("/api/coins", async (req, res) => {
@@ -130,7 +110,6 @@ app.get("/api/coins", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch coins" });
   }
 });
-
 
 
 // Start the server

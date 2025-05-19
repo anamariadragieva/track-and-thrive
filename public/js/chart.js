@@ -33,3 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+    // chartLabels = chartData.prices.map(p => 
+    //   new Date(p[0]).toLocaleDateString("en-GB", {
+    //     day: "numeric",
+    //     month: "short"
+    //   })
+    // );
