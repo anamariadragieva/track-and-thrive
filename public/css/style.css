@@ -97,3 +97,7 @@ thead {
 .hero {
   background-color: var(--bg);
 }
+
+.text-detail {
+  font-size: 0.75rem;
+}
